@@ -1,0 +1,135 @@
+HD009
+12-01-2023
+KH0001
+Nguyen Khac Chinh
+Ha Noi
+0338841974
+20-08-2023
+11-10-2023
+1
+PH001
+A001
+Day nha A1
+Con trong, du tien nghi
+NV001
+Nguyen Thanh Ha
+Ha Noi
+Ha Noi
+0925337447
+22AASDC10001
+Nhan Vien
+2.3
+1
+DV001
+Matxa
+500000
+22-03-2023
+
+HD001
+16-07-2023
+KH0002
+Pham Quang Dai
+Hai Duong
+0943495642
+21-07-2023
+11-10-2023
+1
+PH002
+A002
+Day nha A1
+Con trong, du tien nghi
+NV002
+Nguyen Thanh Hang
+Lai Chau
+Ha Noi
+0925337447
+22AASDC10023
+Nhan Vien
+2.3
+1
+DV001
+Matxa
+1200000
+22-05-2023
+
+HD003
+12-10-2023
+KH0001
+Vu Van Phuc
+Ha Noi
+033434349
+20-08-2023
+31-10-2023
+1
+PH002
+A001
+Day nha A2
+Con trong, du tien nghi
+NV004
+Nguyen Thanh Ha
+Ha Noi
+Ha Noi
+0925337497
+22AASDC10001
+Quan Ly
+4.5
+1
+DV001
+Matxa
+50000
+22-03-2023
+
+HD005
+12-9-2023
+KH0001
+Dang Hoang Nam
+Hai Phong
+031434349
+21-01-2022
+31-10-2023
+1
+PH002
+A003
+Day nha A1
+Con trong, du tien nghi
+NV004
+Nguyen Thanh Ha
+Ha Noi
+Ha Noi
+0925337497
+22AASDC10001
+Nhan Vien
+2.3
+1
+DV001
+Matxa
+22000
+21-03-2023
+
+HD013
+12-9-2023
+KH0001
+Tran Thi Huyen
+Hai Nam
+031434349
+19-02-2021
+31-10-2023
+1
+PH002
+A003
+Day nha A1
+Con trong, du tien nghi
+NV004
+Nguyen Thanh Ha
+Ha Noi
+Ha Noi
+0925337497
+22AASDC10001
+Nhan Vien
+3.4
+1
+DV001
+Matxa
+22000
+21-03-2023
+ENDFILE
