@@ -23,7 +23,7 @@ void sinh(){
 		for (int j = i + 1;j<=k;j++){
 			S[j] = S[j-1] + 1;
 		}
-	}0
+	}
 	
 }
 int main() {
