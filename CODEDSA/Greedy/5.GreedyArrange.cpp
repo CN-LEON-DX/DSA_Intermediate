@@ -29,33 +29,26 @@
 // YES
 // Y tuong cua bai nay la ta se chon cac mang con co do dai la 3, 5, 7, 9, ... va doi chieu voi mang A[] de xem co phai la mang doi xung hay khong. Neu la mang doi xung thi YES, nguoc lai la NO.
 code
-#include <cmath>
-#include <cstdio>
-#include <vector>
 #include <iostream>
+#include <vector>
 #include <algorithm>
 using namespace std;
-using ll = long long;
-#define INT 1000000007
+
 int main() {
     int n; cin >> n;
-    int a[n];
-    for (int &i : a) cin >> i;
-    for (int i = 3;i<=n;i+=2){
-        int l = (n-i)/2;
-        int r = l+i-1;
-        if (a[mid] < a[mid-1] || a[mid] < a[mid+1]){
-            cout << "NO";
-            return 0;
-        }
-        if (a[l] < a[l+1] || a[r] < a[r-1]){
-            cout << "NO";
-            return 0;
-        }
-        
+    vector<int> a(n);
+    vector<int> pos(n);
+    for (int i = 0; i < n; ++i) {
+        cin >> a[i];
+        pos[i] = a[i];
     }
-    if (cnt) cout << "YES";
-    else cout << "NO";
-    /* Enter your code here. Read input from STDIN. Print output to STDOUT */   
+    sort(pos.begin(), pos.end());
+    for (int i = 0;i<n;i++){
+        if (pos[i] != a[i] && pos[i] != a[n - i - 1]){
+            cout << "NO";
+            return 0;
+        }
+    }
+    cout << "YES";
     return 0;
 }
