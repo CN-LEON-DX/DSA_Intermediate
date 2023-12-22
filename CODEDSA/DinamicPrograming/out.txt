@@ -1,1 +1,22 @@
-0
+a a
+a b
+a c
+a d
+a d
+a c
+a b
+a c
+a d
+a d
+a c
+b c
+b d
+b d
+b c
+c d
+c d
+c c
+d d
+d c
+d c
+1
