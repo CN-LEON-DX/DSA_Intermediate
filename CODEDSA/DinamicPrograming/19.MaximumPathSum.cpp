@@ -1,30 +1,36 @@
-// Cho xâu S chỉ bao gồm các ký tự viết thường và dài không quá 1000 ký tự. Hãy tìm xâu con đối xứng dài nhất của S.
+// Cho ma trận A các số nguyên có N hàng và M cột. Tìm đường đi từ ở [1, 1] tới ô [N, M] sao cho tổng các số trên đường đi là lớn nhất có thể, biết rằng ở mỗi bước chỉ có thể đi từ ô hiện tại xuống ô phía dưới hoặc đi sang phải.
 
 // Input Format
 
-// Dòng duy nhất chứa xâu S
+// Dòng đầu tiên N và M. N dòng tiếp theo mỗi dòng gồm M phần tử.
 
 // Constraints
 
-// 1<=len(S)<=1000;
+// 1≤N,M≤100; 1≤A[i][j]≤10^9
 
 // Output Format
 
-// In ra đáp án của bài toán
+// In ra đường đi có tổng lớn nhất.
 
 // Sample Input 0
 
-// edhcgeehahbbeggfcgcchffbffcgfghgc
+// 3 3
+// 1 2 2
+// 3 10 2
+// 5 7 2
 // Sample Output 0
 
-// 5
+// 23
+// Explanation 0
+
+// Giải thích : Đường đi được chọn (1, 1) -> (2, 1) -> (2, 2) -> (3, 2) -> (3, 3)
 
 #include <bits/stdc++.h>
 using namespace std;
 // Run Time 
 #define TIME cout << "\nTime: " << (1.0 * clock() / CLOCKS_PER_SEC) << "s"
 // Debug
-void __print(int x) {cerr <<	 x;}
+void __print(int x) {cerr << x;}
 void __print(long x) {cerr << x;}
 void __print(long long x) {cerr << x;}
 void __print(unsigned x) {cerr << x;}
@@ -56,38 +62,21 @@ const int moveX[8] = {+0, +0, +1, -1, -1, -1, +1, +1};
 const int moveY[8] = {+1, -1, +0, +0, -1, +1, +1, -1};
 const int MOD = 1e9+7;
 typedef long long ll;
+int n, m;
 
 int main(){
-	#ifndef ONLINE_JUDGE
-	// for getting input from input.txt
-	freopen("in.txt", "r", stdin);
-	// for writing output to output.txt
-	freopen("out.txt", "w", stdout);
-	#endif
-	string s; cin >> s;
-	int n = s.size();
-	s = "z" + s;
-	vector<vector<int>> dp(n + 1, vector<int>(n + 1, 0));
-	// Khoi tao ma tran cho dp truoc i = j => dp = 1;
-	// F[i][j] = F[i][j] && F[i +1 ][j - 1];
-	for (int i = 0;i<=n;i++){
-		dp[i][i] = 1;
-	}
-	int res = 1;
-	for (int len = 2; len <= n; len++){
-		for (int i = 1; i <= n - len + 1; i++){
-			int j = i + len - 1;
-			if (len == 2){
-				if (s[i]==s[j]) dp[i][j] = 1;
-			}else{
-				dp[i][j] = dp[i+1][j-1] && (s[i] == s[j]);
-			}
-			if (dp[i][j]){
-				res = max(res, len);
-			}
-		}
-	}
-	debug(dp);
-	cout << res;
+    cin >> n >> m;
+    vector<vector<ll>> dp(n+2, vector<ll>(m+2, 0ll));
+    for (int i = 1;i<=n;i++){
+        for (int j = 1;j<=m;j++){
+            cin >> dp[i][j];
+        }
+    }
+    for (int i = 1;i<=n;i++){
+        for (int j = 1;j<=m;j++){
+            dp[i][j] += max(dp[i][j-1], dp[i-1][j]);
+        }
+    }
+    cout << dp[n][m];
     return 0;
 }

@@ -1,30 +1,28 @@
-// Cho xâu S chỉ bao gồm các ký tự viết thường và dài không quá 1000 ký tự. Hãy tìm xâu con đối xứng dài nhất của S.
+// Cho hai số nguyên lớn N và M có không quá 1000 chữ số. Người ta muốn tính xem liệu có thể lấy ra nhiều nhất bao nhiêu chữ số trong N (không cần liên tiếp) và giữ nguyên thứ tự của nó để tạo ra một số X sao cho ta cũng có thể tìm thấy X trong số M theo cách tương tự.
 
 // Input Format
 
-// Dòng duy nhất chứa xâu S
+// Dòng thứ nhất ghi số N, dòng thứ 2 ghi số M
 
 // Constraints
 
-// 1<=len(S)<=1000;
+// 1<=len(N), len(M) <= 1000
 
 // Output Format
 
-// In ra đáp án của bài toán
+// In ra số chữ số nhiều nhất có thể của X
 
 // Sample Input 0
-
-// edhcgeehahbbeggfcgcchffbffcgfghgc
+// 82619136359
+// 5572555993152891122
 // Sample Output 0
-
 // 5
-
 #include <bits/stdc++.h>
 using namespace std;
 // Run Time 
 #define TIME cout << "\nTime: " << (1.0 * clock() / CLOCKS_PER_SEC) << "s"
 // Debug
-void __print(int x) {cerr <<	 x;}
+void __print(int x) {cerr << x;}
 void __print(long x) {cerr << x;}
 void __print(long long x) {cerr << x;}
 void __print(unsigned x) {cerr << x;}
@@ -54,9 +52,10 @@ const int dx[4] = {-1, +0, +1, +0};
 const int dy[4] = {+0, +1, +0, -1};
 const int moveX[8] = {+0, +0, +1, -1, -1, -1, +1, +1};
 const int moveY[8] = {+1, -1, +0, +0, -1, +1, +1, -1};
+
 const int MOD = 1e9+7;
 typedef long long ll;
-
+int n;
 int main(){
 	#ifndef ONLINE_JUDGE
 	// for getting input from input.txt
@@ -64,30 +63,20 @@ int main(){
 	// for writing output to output.txt
 	freopen("out.txt", "w", stdout);
 	#endif
-	string s; cin >> s;
-	int n = s.size();
-	s = "z" + s;
-	vector<vector<int>> dp(n + 1, vector<int>(n + 1, 0));
-	// Khoi tao ma tran cho dp truoc i = j => dp = 1;
-	// F[i][j] = F[i][j] && F[i +1 ][j - 1];
-	for (int i = 0;i<=n;i++){
-		dp[i][i] = 1;
-	}
-	int res = 1;
-	for (int len = 2; len <= n; len++){
-		for (int i = 1; i <= n - len + 1; i++){
-			int j = i + len - 1;
-			if (len == 2){
-				if (s[i]==s[j]) dp[i][j] = 1;
+	string u, v; cin >> u >> v;
+	int n1 = u.size(), n2 = v.size();
+	u = "z" + u; v = "z" + v;
+	vector<vector<int>> dp(n1 + 1, vector<int>(n2 + 1, 0));
+	for (int i = 1;i<=n1;i++){
+		for (int j = 1;j<=n2;j++){
+			if (u[i]==v[j]){
+				dp[i][j] = dp[i-1][j-1] + 1;
 			}else{
-				dp[i][j] = dp[i+1][j-1] && (s[i] == s[j]);
-			}
-			if (dp[i][j]){
-				res = max(res, len);
+				dp[i][j] = max(dp[i-1][j], dp[i][j-1]);
 			}
 		}
 	}
 	debug(dp);
-	cout << res;
-    return 0;
+	cout << dp[n1][n2];
+	return 0;
 }

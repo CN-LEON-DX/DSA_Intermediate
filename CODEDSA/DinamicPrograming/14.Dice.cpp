@@ -1,30 +1,36 @@
-// Cho xâu S chỉ bao gồm các ký tự viết thường và dài không quá 1000 ký tự. Hãy tìm xâu con đối xứng dài nhất của S.
+// Tèo hiện đang học sinh lớp 10A1, vốn là một học sinh được đánh giá rất cao về khả năng toán học nên Tèo thường được các bạn trong lớp nhờ giải các bài toán trên tạp chí toán học và tuổi trẻ. Hôm nay Tí là bạn thân của Tèo gặp một bài toán trên tạp chí và đã nhờ Tèo giải hộ, Tèo dù rất giỏi toán và biết cách làm bài này nhưng bài toán này kết quả quá lớn nên Tèo phải nhờ tới bạn lập trình thuật toán để tìm ra lời giải giúp Tèo. Bài toán có yêu cầu rất đơn giản, cho ngẫu nhiên số N, hỏi rằng nếu được tung một con xúc xắc không giới hạn số lần và lấy tổng số chấm trên mặt xúc xắc cộng lại với nhau, hỏi có bao nhiêu cách tung để tổng số chấm trong mọi lần tung xúc xắc bằng N. Bạn hãy giúp Tèo giải quyết bài toán này nhé, vì số cách tung có thể quá lớn, nên bạn hãy chia dư kết quả với modulo 10^9 + 7
 
 // Input Format
 
-// Dòng duy nhất chứa xâu S
+// Dòng duy nhất chứa số nguyên dương N
 
 // Constraints
 
-// 1<=len(S)<=1000;
+// 1<=N<=10^6;
 
 // Output Format
 
-// In ra đáp án của bài toán
+// Kết quả của bài toán
 
 // Sample Input 0
 
-// edhcgeehahbbeggfcgcchffbffcgfghgc
+// 7
 // Sample Output 0
 
-// 5
+// 63
+// Sample Input 1
+
+// 3
+// Sample Output 1
+
+// 4
 
 #include <bits/stdc++.h>
 using namespace std;
 // Run Time 
 #define TIME cout << "\nTime: " << (1.0 * clock() / CLOCKS_PER_SEC) << "s"
 // Debug
-void __print(int x) {cerr <<	 x;}
+void __print(int x) {cerr << x;}
 void __print(long x) {cerr << x;}
 void __print(long long x) {cerr << x;}
 void __print(unsigned x) {cerr << x;}
@@ -56,7 +62,7 @@ const int moveX[8] = {+0, +0, +1, -1, -1, -1, +1, +1};
 const int moveY[8] = {+1, -1, +0, +0, -1, +1, +1, -1};
 const int MOD = 1e9+7;
 typedef long long ll;
-
+int n;
 int main(){
 	#ifndef ONLINE_JUDGE
 	// for getting input from input.txt
@@ -64,30 +70,16 @@ int main(){
 	// for writing output to output.txt
 	freopen("out.txt", "w", stdout);
 	#endif
-	string s; cin >> s;
-	int n = s.size();
-	s = "z" + s;
-	vector<vector<int>> dp(n + 1, vector<int>(n + 1, 0));
-	// Khoi tao ma tran cho dp truoc i = j => dp = 1;
-	// F[i][j] = F[i][j] && F[i +1 ][j - 1];
-	for (int i = 0;i<=n;i++){
-		dp[i][i] = 1;
-	}
-	int res = 1;
-	for (int len = 2; len <= n; len++){
-		for (int i = 1; i <= n - len + 1; i++){
-			int j = i + len - 1;
-			if (len == 2){
-				if (s[i]==s[j]) dp[i][j] = 1;
-			}else{
-				dp[i][j] = dp[i+1][j-1] && (s[i] == s[j]);
-			}
-			if (dp[i][j]){
-				res = max(res, len);
-			}
-		}
-	}
-	debug(dp);
-	cout << res;
-    return 0;
+	cin >> n;
+	ll dp[n+1] = {0};
+	dp[0] = 1;
+	 for (int i = 1; i <= n; i++){
+        for (int j = 1; j <= 6; j++){
+            if (i - j >= 0){
+                dp[i] = (dp[i] + dp[i-j]) % MOD;
+            }
+        }
+    }
+    cout << dp[n];
+	return 0;
 }

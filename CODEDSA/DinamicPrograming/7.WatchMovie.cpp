@@ -1,30 +1,28 @@
-// Cho xâu S chỉ bao gồm các ký tự viết thường và dài không quá 1000 ký tự. Hãy tìm xâu con đối xứng dài nhất của S.
+// John có một đàn bò. Một ngày đẹp trời, anh ta quyết định mua xe tải với khả năng chở được C kg (1000 ≤ C ≤ 25000) để đưa những con bò đi xem phim. Cho số con bò là N (20 ≤ N ≤ 100) và khối lượng w[i] của từng con (đều nhỏ hơn C), hãy cho biết khối lượng bò lớn nhất mà John có thể đưa đi xem phim là bao nhiêu.
 
 // Input Format
 
-// Dòng duy nhất chứa xâu S
+// Dòng 1: 2 số nguyên C và N cách nhau bởi dấu cách; Dòng 2: Ghi lần lượt các số nguyên: w[i]
 
 // Constraints
 
-// 1<=len(S)<=1000;
+// 1000 ≤ C ≤ 25000; 20 ≤ N ≤ 100; w[i] <= C;
 
 // Output Format
 
-// In ra đáp án của bài toán
+// Một số nguyên là tổng khối lượng bò lớn nhất mà John có thể mang đi xem phim.
 
 // Sample Input 0
-
-// edhcgeehahbbeggfcgcchffbffcgfghgc
+// 259 5
+// 81 58 42 33 61
 // Sample Output 0
-
-// 5
-
+// 242
 #include <bits/stdc++.h>
 using namespace std;
 // Run Time 
 #define TIME cout << "\nTime: " << (1.0 * clock() / CLOCKS_PER_SEC) << "s"
 // Debug
-void __print(int x) {cerr <<	 x;}
+void __print(int x) {cerr << x;}
 void __print(long x) {cerr << x;}
 void __print(long long x) {cerr << x;}
 void __print(unsigned x) {cerr << x;}
@@ -56,6 +54,7 @@ const int moveX[8] = {+0, +0, +1, -1, -1, -1, +1, +1};
 const int moveY[8] = {+1, -1, +0, +0, -1, +1, +1, -1};
 const int MOD = 1e9+7;
 typedef long long ll;
+int c, n;
 
 int main(){
 	#ifndef ONLINE_JUDGE
@@ -64,30 +63,15 @@ int main(){
 	// for writing output to output.txt
 	freopen("out.txt", "w", stdout);
 	#endif
-	string s; cin >> s;
-	int n = s.size();
-	s = "z" + s;
-	vector<vector<int>> dp(n + 1, vector<int>(n + 1, 0));
-	// Khoi tao ma tran cho dp truoc i = j => dp = 1;
-	// F[i][j] = F[i][j] && F[i +1 ][j - 1];
-	for (int i = 0;i<=n;i++){
-		dp[i][i] = 1;
-	}
-	int res = 1;
-	for (int len = 2; len <= n; len++){
-		for (int i = 1; i <= n - len + 1; i++){
-			int j = i + len - 1;
-			if (len == 2){
-				if (s[i]==s[j]) dp[i][j] = 1;
-			}else{
-				dp[i][j] = dp[i+1][j-1] && (s[i] == s[j]);
-			}
-			if (dp[i][j]){
-				res = max(res, len);
-			}
+	cin >>  c >> n;
+	vector<int> a(n+1);
+	for (int i = 1; i<=n;i++) cin >> a[i];
+	vector<ll> dp(c + 1);
+	for (int i = 1; i<=n;i++){
+		for (int j = c;j >= a[i];j--){
+			dp[j] = max(dp[j], dp[j - a[i]] + a[i]);
 		}
 	}
-	debug(dp);
-	cout << res;
-    return 0;
+	cout << dp[c];
+	return 0;
 }

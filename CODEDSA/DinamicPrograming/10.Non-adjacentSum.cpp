@@ -1,30 +1,37 @@
-// Cho xâu S chỉ bao gồm các ký tự viết thường và dài không quá 1000 ký tự. Hãy tìm xâu con đối xứng dài nhất của S.
+// Cho mảng A[] gồm N phần tử, nhiệm vụ của bạn là tính tổng lớn nhất của dãy con trong mảng với một điều kiện đó là trong dãy con này không được có 2 phần tử nằm liền kề nhau.
 
 // Input Format
 
-// Dòng duy nhất chứa xâu S
+// Dòng đầu tiên là N : số lượng phần tử trong mảng; Dòng thứ 2 là A[i];
 
 // Constraints
 
-// 1<=len(S)<=1000;
+// 1<=N<=10^6; 1<=A[i]<=1000;
 
 // Output Format
 
-// In ra đáp án của bài toán
+// In ra kết quả của bài toán
 
 // Sample Input 0
 
-// edhcgeehahbbeggfcgcchffbffcgfghgc
+// 7
+// 314 514 148 451 896 589 296 
 // Sample Output 0
 
-// 5
+// 1706
+// Khởi tạo mảng dp với dp[0] = A[0] và dp[1] = max(A[0], A[1]).
 
+// Duyệt qua mỗi phần tử i từ 2 đến N-1.
+
+// Với mỗi phần tử i, cập nhật dp[i] = max(dp[i-1], dp[i-2] + A[i]).
+
+// Sau khi duyệt xong, dp[N-1] sẽ là tổng lớn nhất có thể đạt được mà không chọn hai phần tử liền kề.
 #include <bits/stdc++.h>
 using namespace std;
 // Run Time 
 #define TIME cout << "\nTime: " << (1.0 * clock() / CLOCKS_PER_SEC) << "s"
 // Debug
-void __print(int x) {cerr <<	 x;}
+void __print(int x) {cerr << x;}
 void __print(long x) {cerr << x;}
 void __print(long long x) {cerr << x;}
 void __print(unsigned x) {cerr << x;}
@@ -56,38 +63,26 @@ const int moveX[8] = {+0, +0, +1, -1, -1, -1, +1, +1};
 const int moveY[8] = {+1, -1, +0, +0, -1, +1, +1, -1};
 const int MOD = 1e9+7;
 typedef long long ll;
+int n;
 
 int main(){
-	#ifndef ONLINE_JUDGE
-	// for getting input from input.txt
-	freopen("in.txt", "r", stdin);
-	// for writing output to output.txt
-	freopen("out.txt", "w", stdout);
-	#endif
-	string s; cin >> s;
-	int n = s.size();
-	s = "z" + s;
-	vector<vector<int>> dp(n + 1, vector<int>(n + 1, 0));
-	// Khoi tao ma tran cho dp truoc i = j => dp = 1;
-	// F[i][j] = F[i][j] && F[i +1 ][j - 1];
-	for (int i = 0;i<=n;i++){
-		dp[i][i] = 1;
-	}
-	int res = 1;
-	for (int len = 2; len <= n; len++){
-		for (int i = 1; i <= n - len + 1; i++){
-			int j = i + len - 1;
-			if (len == 2){
-				if (s[i]==s[j]) dp[i][j] = 1;
-			}else{
-				dp[i][j] = dp[i+1][j-1] && (s[i] == s[j]);
-			}
-			if (dp[i][j]){
-				res = max(res, len);
-			}
-		}
-	}
-	debug(dp);
-	cout << res;
+    #ifndef ONLINE_JUDGE
+    // for getting input from input.txt
+    freopen("in.txt", "r", stdin);
+    // for writing output to output.txt
+    freopen("out.txt", "w", stdout);
+    #endif
+    cin >> n;
+    vector<ll> dp(n+1);
+    vector<ll> a(n+1);
+    for (int i = 1;i<=n;i++){
+        cin >> a[i];
+    }
+    dp[1] = a[1];
+    dp[2] = max(a[1], a[2]);
+    for (int i = 3; i<=n;i++){
+        dp[i] = max(dp[i-1], dp[i-2] + a[i]);
+    }
+    cout << dp[n];
     return 0;
 }

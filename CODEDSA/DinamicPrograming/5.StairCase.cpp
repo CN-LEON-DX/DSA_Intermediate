@@ -1,30 +1,35 @@
-// Cho xâu S chỉ bao gồm các ký tự viết thường và dài không quá 1000 ký tự. Hãy tìm xâu con đối xứng dài nhất của S.
+// Một chiếc cầu thang có N bậc. Mỗi bước, bạn được phép bước lên trên tối đa K bước. Hỏi có tất cả bao nhiêu cách bước để đi hết cầu thang? (Tổng số bước đúng bằng N).
 
 // Input Format
 
-// Dòng duy nhất chứa xâu S
+// Dòng duy nhất chứa 2 số nguyên N và K
 
 // Constraints
 
-// 1<=len(S)<=1000;
+// 1<=N<=100000; 1<=K<=100;
 
 // Output Format
 
-// In ra đáp án của bài toán
+// In ra đáp án tìm được trên một dòng theo modulo 10^9+7.
 
 // Sample Input 0
 
-// edhcgeehahbbeggfcgcchffbffcgfghgc
+// 7 3
 // Sample Output 0
 
-// 5
+// 44
+// Sample Input 1
 
+// 4 2
+// Sample Output 1
+
+// 5
 #include <bits/stdc++.h>
 using namespace std;
 // Run Time 
 #define TIME cout << "\nTime: " << (1.0 * clock() / CLOCKS_PER_SEC) << "s"
 // Debug
-void __print(int x) {cerr <<	 x;}
+void __print(int x) {cerr << x;}
 void __print(long x) {cerr << x;}
 void __print(long long x) {cerr << x;}
 void __print(unsigned x) {cerr << x;}
@@ -56,6 +61,7 @@ const int moveX[8] = {+0, +0, +1, -1, -1, -1, +1, +1};
 const int moveY[8] = {+1, -1, +0, +0, -1, +1, +1, -1};
 const int MOD = 1e9+7;
 typedef long long ll;
+int n, k;
 
 int main(){
 	#ifndef ONLINE_JUDGE
@@ -64,30 +70,14 @@ int main(){
 	// for writing output to output.txt
 	freopen("out.txt", "w", stdout);
 	#endif
-	string s; cin >> s;
-	int n = s.size();
-	s = "z" + s;
-	vector<vector<int>> dp(n + 1, vector<int>(n + 1, 0));
-	// Khoi tao ma tran cho dp truoc i = j => dp = 1;
-	// F[i][j] = F[i][j] && F[i +1 ][j - 1];
-	for (int i = 0;i<=n;i++){
-		dp[i][i] = 1;
-	}
-	int res = 1;
-	for (int len = 2; len <= n; len++){
-		for (int i = 1; i <= n - len + 1; i++){
-			int j = i + len - 1;
-			if (len == 2){
-				if (s[i]==s[j]) dp[i][j] = 1;
-			}else{
-				dp[i][j] = dp[i+1][j-1] && (s[i] == s[j]);
-			}
-			if (dp[i][j]){
-				res = max(res, len);
-			}
+	cin >> n >> k;
+	vector<ll> dp(n+1, 0);
+	dp[0] = 1;
+	for (int i = 1; i<=n;i++){
+		for (int j = 1;j<=min(i, k);j++){
+			dp[i] = (dp[i] + dp[i-j])%MOD;
 		}
 	}
-	debug(dp);
-	cout << res;
-    return 0;
+	cout << dp[n]%MOD;
+	return 0;
 }
