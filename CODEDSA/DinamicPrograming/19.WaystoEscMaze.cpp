@@ -1,25 +1,27 @@
-// Ngân hàng XYZ hiện có N tờ tiền có mệnh giá khác nhau được lưu vào mảng C[], bạn hãy tìm cách đổi số tiền là S sao cho số tờ tiền cần dùng là ít nhất. Bạn được sử dụng một mệnh giá không giới hạn số lần.
+// Cho mê cung được mô tả bởi một ma trận kí tự gồm N hàng và N cột. Mỗi ô trên ma trận chứa kí tự '.' tương ứng với đường đi và dấu * tương ứng với bẫy. Một con chuột muốn đi từ ô (1, 1) tới ô (N, N) và chỉ được di chuyển khi một ô nào đó là đường đi và nó được di chuyển sang phải hoặc xuống dưới. Hãy đếm số cách con chuột có thể di chuyển tới đích. Vì kết quả quá lớn nên hãy lấy dư với 10^9 + 7
 
 // Input Format
 
-// Dòng đầu tiên chứa 2 số N và S; Dòng thứ 2 chưa N số là mệnh giá các tờ tiền;
+// Dòng đầu tiên là N; N dòng tiếp theo mỗi dòng là N kí tự
 
 // Constraints
 
-// 1<=N<=100; 1<=S<=10^6; 1<=C[i]<=10^6;
+// 1<=N<=1000
 
 // Output Format
 
-// In ra số tờ tiền nhỏ nhất cần đổi. Nếu không thể đổi được số tiền đúng bằng S thì in ra -1.
+// Số đường đi tối đa
 
 // Sample Input 0
 
-// 3 10
-// 4 5 8
+// 4
+// ....
+// .*..
+// ...*
+// *...
 // Sample Output 0
 
-// 2
-
+// 3
 #include <bits/stdc++.h>
 using namespace std;
 // Run Time 
@@ -57,22 +59,29 @@ const int moveX[8] = {+0, +0, +1, -1, -1, -1, +1, +1};
 const int moveY[8] = {+1, -1, +0, +0, -1, +1, +1, -1};
 const int MOD = 1e9+7;
 typedef long long ll;
-const int INF = 1e9+1;
-int n, s;
+int n;
 int main(){
-    cin >> n >> s;
-    vector<ll> a(n+1);
-    for (int i = 1; i<=n;i++) cin >> a[i];
-    vector<ll> dp(s+1, INF);
-    dp[0] = 0;
+    cin >> n;
+    vector<vector<char>> a(n+1, vector<char>(n+1));
+    vector<vector<int>> dp(n+1, vector<int>(n+1, 0));
     for (int i = 1;i<=n;i++){
-        for (int j = a[i];j<=s;j++){
-            dp[j] = min(dp[j], dp[j-a[i]] + 1);
+        for (int j = 1; j<=n;j++) {
+            cin >> a[i][j];
+        }
+    }
+    if (a[1][1]=='*') {
+        cout << 0;
+        return 0;
+    }
+    dp[1][1] = 1;
+    for (int i = 1; i<=n;i++){
+        for (int j = 1;j<=n;j++){
+            if (a[i][j] != '*'){
+                dp[i][j] += (dp[i-1][j] + dp[i][j-1])%MOD;
+            }
         }
     }
     debug(dp);
-    if (dp[s] == INF){
-        cout << -1;
-    }else cout << dp[s];
+    cout << dp[n][n];
     return 0;
 }

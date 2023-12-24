@@ -1,25 +1,27 @@
-// Ngân hàng XYZ hiện có N tờ tiền có mệnh giá khác nhau được lưu vào mảng C[], bạn hãy tìm cách đổi số tiền là S sao cho số tờ tiền cần dùng là ít nhất. Bạn được sử dụng một mệnh giá không giới hạn số lần.
+// Bạn được cung cấp một ma trận nhị phân có N dòng và M cột chỉ bao gồm các số 0 và 1, hãy tìm hình vuông lớn nhất trong ma trận mà chỉ chứa toàn số 1.
 
 // Input Format
 
-// Dòng đầu tiên chứa 2 số N và S; Dòng thứ 2 chưa N số là mệnh giá các tờ tiền;
+// Dòng đầu tiên gồm 2 số N và M; N dòng tiếp theo mỗi dòng M số nguyên;
 
 // Constraints
 
-// 1<=N<=100; 1<=S<=10^6; 1<=C[i]<=10^6;
+// 1<=N,M<=500; 0<=A[i][j]<=1;
 
 // Output Format
 
-// In ra số tờ tiền nhỏ nhất cần đổi. Nếu không thể đổi được số tiền đúng bằng S thì in ra -1.
+// In ra kết quả đáp án của bài toán
 
 // Sample Input 0
 
-// 3 10
-// 4 5 8
+// 4 4
+// 1 1 0 0
+// 1 1 1 1
+// 1 1 0 1
+// 1 0 1 0
 // Sample Output 0
 
 // 2
-
 #include <bits/stdc++.h>
 using namespace std;
 // Run Time 
@@ -57,22 +59,30 @@ const int moveX[8] = {+0, +0, +1, -1, -1, -1, +1, +1};
 const int moveY[8] = {+1, -1, +0, +0, -1, +1, +1, -1};
 const int MOD = 1e9+7;
 typedef long long ll;
-const int INF = 1e9+1;
-int n, s;
+int n, m;
 int main(){
-    cin >> n >> s;
-    vector<ll> a(n+1);
-    for (int i = 1; i<=n;i++) cin >> a[i];
-    vector<ll> dp(s+1, INF);
-    dp[0] = 0;
-    for (int i = 1;i<=n;i++){
-        for (int j = a[i];j<=s;j++){
-            dp[j] = min(dp[j], dp[j-a[i]] + 1);
+    cin >> n >> m;
+    vector<vector<int>> a(n+1, vector<int>(m+1));
+    vector<vector<int>> dp(n+1, vector<int>(m+1));
+    for (int i =1;i<=n;i++){
+        for (int j = 1;j<=m;j++) cin >> a[i][j];
+    }
+    debug(a);
+    for (int i = 1; i<=n;i++){
+        for (int j = 1; j<=m;j++){
+            if ((i==1 || j == 1) && a[i][j]==1) dp[i][j] = 1;
+            else {
+                if (a[i][j]==1) dp[i][j] = min({dp[i-1][j-1], dp[i-1][j], dp[i][j-1]}) + 1;
+            }
         }
     }
     debug(dp);
-    if (dp[s] == INF){
-        cout << -1;
-    }else cout << dp[s];
+    int res = 0;
+    for (int i = 1; i<=n;i++){
+        for (int j = 1; j<=m;j++){
+            res = max(dp[i][j], res);
+        }
+    }
+    cout << res;
     return 0;
 }

@@ -1,25 +1,24 @@
-// Ngân hàng XYZ hiện có N tờ tiền có mệnh giá khác nhau được lưu vào mảng C[], bạn hãy tìm cách đổi số tiền là S sao cho số tờ tiền cần dùng là ít nhất. Bạn được sử dụng một mệnh giá không giới hạn số lần.
+// Cho mảng A[] gồm N phần tử là số nguyên dương, xét tất cả các tập con của A[] và tính tổng các phần tử trong tập này (bao gồm cả tập rỗng), sau đó liệt kê các tổng khác nhau có thể tạo thành theo thứ tự tăng dần.
 
 // Input Format
 
-// Dòng đầu tiên chứa 2 số N và S; Dòng thứ 2 chưa N số là mệnh giá các tờ tiền;
+// Dòng đầu tiên là N : số lượng phần tử trong mảng; Dòng thứ 2 gồm N phần tử của mảng A[]
 
 // Constraints
 
-// 1<=N<=100; 1<=S<=10^6; 1<=C[i]<=10^6;
+// 1<=N<=100; 1<=A[i]<=100;
 
 // Output Format
 
-// In ra số tờ tiền nhỏ nhất cần đổi. Nếu không thể đổi được số tiền đúng bằng S thì in ra -1.
+// In ra các tổng có thể tạo thành từ các tập con của A[]
 
 // Sample Input 0
 
-// 3 10
-// 4 5 8
+// 3
+// 4 1 2 
 // Sample Output 0
 
-// 2
-
+// 0 1 2 3 4 5 6 7 
 #include <bits/stdc++.h>
 using namespace std;
 // Run Time 
@@ -57,22 +56,27 @@ const int moveX[8] = {+0, +0, +1, -1, -1, -1, +1, +1};
 const int moveY[8] = {+1, -1, +0, +0, -1, +1, +1, -1};
 const int MOD = 1e9+7;
 typedef long long ll;
-const int INF = 1e9+1;
-int n, s;
+int n;
 int main(){
-    cin >> n >> s;
-    vector<ll> a(n+1);
-    for (int i = 1; i<=n;i++) cin >> a[i];
-    vector<ll> dp(s+1, INF);
-    dp[0] = 0;
-    for (int i = 1;i<=n;i++){
-        for (int j = a[i];j<=s;j++){
-            dp[j] = min(dp[j], dp[j-a[i]] + 1);
-        }
-    }
-    debug(dp);
-    if (dp[s] == INF){
-        cout << -1;
-    }else cout << dp[s];
-    return 0;
+	#ifndef ONLINE_JUDGE
+	freopen("in.txt", "r", stdin);
+	freopen("out.txt", "w", stdout);
+	#endif
+	cin >> n;
+	vector<int> a(n+1);
+	for (int i = 1; i<=n;i++) cin >> a[i];
+	sort(a.begin(), a.end());
+	int s = accumulate(a.begin()+1, a.end(), 0);
+	vector<bool> dp(s + 1, 0);
+	dp[0] = 1;
+	for (int i = 1; i <= n; i++){
+	    for (int j = s; j >= a[i]; j--){
+	        dp[j] = dp[j] || dp[j - a[i]];
+	    }
+	}
+	for (int i = 0; i <= s; i++){
+	    if (dp[i]) cout << i << " ";
+	}
+
+	return 0;
 }
