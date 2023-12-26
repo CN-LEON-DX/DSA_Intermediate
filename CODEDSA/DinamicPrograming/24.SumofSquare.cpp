@@ -1,23 +1,16 @@
-// Cho một số tự nhiên N được biểu diễn như một xâu kí tự, bạn hãy tính tổng của tất cả các số tạo bởi các xâu con liên tiếp của N, ví dụ N = 235 thì ta có tổng = 2 + 3 + 5 + 23 + 35 + 235.
+// Mọi số nguyên dương N đều có thể phân tích thành tổng các bình phương của các số nhỏ hơn N. Ví dụ số 100 = 10^2 hoặc 100 = 5^2 + 5^2 + 5^2 + 5^2. Cho số nguyên dương N. Nhiệm vụ của bạn là tìm số lượng ít nhất các số nhỏ hơn N mà có tổng bình phương bằng N.
 
 // Input Format
 
-// Dòng duy nhất chứa số nguyên dương N
-
+// Một số tự nhiên N được viết trên 1 dòng.
 // Constraints
-
-// 1<=N<=10^12
-
+// 1≤N≤10000;
 // Output Format
-
-// In ra kết quả của bài toán
-
+// Đưa ra kết quả của bài toán
 // Sample Input 0
-
-// 1807
+// 100
 // Sample Output 0
-
-// 2915
+// 1
 #include <bits/stdc++.h>
 using namespace std;
 // Run Time 
@@ -57,16 +50,18 @@ const int MOD = 1e9+7;
 typedef long long ll;
 int n;
 int main(){
-    string s; cin >> s;
-    n = s.size();
-    vector<ll> dp(n, 0);
-    ll res = 0;
-    dp[0] = s[0] - '0';
-    for (int i = 1; i<n;i++){
-        dp[i] = (10 * dp[i-1] + (i+1)*(s[i]-'0'));
-        res += dp[i];
+	#ifndef ONLINE_JUDGE
+	freopen("in.txt", "r", stdin);
+	freopen("out.txt", "w", stdout);
+	#endif
+	cin >> n;
+    vector<int> dp(n + 1, INT_MAX);
+    dp[0] = 0;
+    for (int i = 1; i <= n; i++) {
+        for (int j = 1; j*j <= i; j++) {
+            dp[i] = min(dp[i], dp[i - j*j] + 1);
+        }
     }
-    cout << res + dp[0];
-    return 0;
+    cout << dp[n] << endl;
+	return 0;
 }
-

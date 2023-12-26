@@ -1,23 +1,23 @@
-// Cho một số tự nhiên N được biểu diễn như một xâu kí tự, bạn hãy tính tổng của tất cả các số tạo bởi các xâu con liên tiếp của N, ví dụ N = 235 thì ta có tổng = 2 + 3 + 5 + 23 + 35 + 235.
+// Cho một hình chữ nhật a × b, nhiệm vụ của bạn là cắt nó thành các hình vuông. Trên mỗi lần cắt, bạn có thể chọn một hình chữ nhật và cắt nó thành hai hình chữ nhật sao cho tất cả độ dài các cạnh vẫn là số nguyên. Số lần di cắt tối thiểu có thể là bao nhiêu?
 
 // Input Format
 
-// Dòng duy nhất chứa số nguyên dương N
+// Dòng duy nhất chứa 2 số nguyên a và b.
 
 // Constraints
 
-// 1<=N<=10^12
+// 1<=a,b<=500;
 
 // Output Format
 
-// In ra kết quả của bài toán
+// In ra số lần cắt tối thiểu
 
 // Sample Input 0
 
-// 1807
+// 3 5
 // Sample Output 0
 
-// 2915
+// 3
 #include <bits/stdc++.h>
 using namespace std;
 // Run Time 
@@ -55,18 +55,40 @@ const int moveX[8] = {+0, +0, +1, -1, -1, -1, +1, +1};
 const int moveY[8] = {+1, -1, +0, +0, -1, +1, +1, -1};
 const int MOD = 1e9+7;
 typedef long long ll;
-int n;
+int n, m;
 int main(){
-    string s; cin >> s;
-    n = s.size();
-    vector<ll> dp(n, 0);
-    ll res = 0;
-    dp[0] = s[0] - '0';
-    for (int i = 1; i<n;i++){
-        dp[i] = (10 * dp[i-1] + (i+1)*(s[i]-'0'));
-        res += dp[i];
+    #ifndef ONLINE_JUDGE
+    freopen("in.txt", "r", stdin);
+    freopen("out.txt", "w", stdout);
+    #endif
+    cin >> n >> m;
+    int res = 0;
+    while (n>0 && m > 0){
+        int t = 0;
+        int c = 0;
+        if (m==2){
+            n-=2;
+            c = 1;
+            res += 1;
+        }else if (n==2){
+            m-=2;
+            c = 1;
+            res+=1;
+        }
+        if (c) break;
+        if (n > m){
+             t += n/m;
+            n -= t * m;
+            res += t;
+        }
+        else{
+            t += m/n;
+            m -= n * t;
+            res += t;
+        }
+        debug(res, n, m);
     }
-    cout << res + dp[0];
+    if (n + m>0)
+    cout << ++res;
     return 0;
 }
-

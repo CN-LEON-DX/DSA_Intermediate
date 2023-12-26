@@ -1,23 +1,21 @@
-// Cho một số tự nhiên N được biểu diễn như một xâu kí tự, bạn hãy tính tổng của tất cả các số tạo bởi các xâu con liên tiếp của N, ví dụ N = 235 thì ta có tổng = 2 + 3 + 5 + 23 + 35 + 235.
+//  Cho một bảng hình chữ nhật cỡ nxm hình vuông đơn vị, nhiệm vụ của bạn là đếm số cách lấp đầy hình chữ nhật này bằng cách viên gạch có cỡ 1x2 và 2x1.
 
 // Input Format
 
-// Dòng duy nhất chứa số nguyên dương N
+// Dòng duy nhất chứa 2 số n và m.
 
 // Constraints
 
-// 1<=N<=10^12
+// 1≤n≤10; 1≤m≤1000;
 
 // Output Format
 
-// In ra kết quả của bài toán
+// In ra đáp án của bài toán chia dư với 1e9 + 7
 
 // Sample Input 0
-
-// 1807
+// 4 7
 // Sample Output 0
-
-// 2915
+// 781
 #include <bits/stdc++.h>
 using namespace std;
 // Run Time 
@@ -55,18 +53,21 @@ const int moveX[8] = {+0, +0, +1, -1, -1, -1, +1, +1};
 const int moveY[8] = {+1, -1, +0, +0, -1, +1, +1, -1};
 const int MOD = 1e9+7;
 typedef long long ll;
-int n;
+int n, m;
 int main(){
-    string s; cin >> s;
-    n = s.size();
-    vector<ll> dp(n, 0);
-    ll res = 0;
-    dp[0] = s[0] - '0';
-    for (int i = 1; i<n;i++){
-        dp[i] = (10 * dp[i-1] + (i+1)*(s[i]-'0'));
-        res += dp[i];
-    }
-    cout << res + dp[0];
-    return 0;
+	#ifndef ONLINE_JUDGE
+	freopen("in.txt", "r", stdin);
+	freopen("out.txt", "w", stdout);
+	#endif
+	cin >> n >> m;
+	vector<vector<ll>> dp(n + 1, vector<ll>(m+1, 0));
+	for (int i = 1;i<=n;i++){
+		for (int j = 1; j<=m;j++){
+			if (i > j) dp[i][j] = dp[i-1][j];
+			else if (i < j) dp[i][j] = (dp[i-1][j] + dp[i][j-1]) % MOD;
+			else dp[i][j]= (dp[i][j-1] + 1)%MOD;
+		}
+	}
+	cout << dp[n][m];
+	return 0;
 }
-

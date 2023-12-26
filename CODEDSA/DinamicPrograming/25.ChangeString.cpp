@@ -1,23 +1,23 @@
-// Cho một số tự nhiên N được biểu diễn như một xâu kí tự, bạn hãy tính tổng của tất cả các số tạo bởi các xâu con liên tiếp của N, ví dụ N = 235 thì ta có tổng = 2 + 3 + 5 + 23 + 35 + 235.
+// Cho hai xâu ký tự str1, str2 bao gồm các ký tự in thường và các thao tác dưới đây: Insert: chèn một ký tự bất kỳ vào str1. Delete: loại bỏ một ký tự bất kỳ trong str1. Replace: thay một ký tự bất kỳ trong str1. Nhiệm vụ của bạn là đếm số các phép Insert, Delete, Replace ít nhất thực hiện trên str1 để trở thành str2.
 
 // Input Format
 
-// Dòng duy nhất chứa số nguyên dương N
+// Dòng 1 là xâu str1; Dòng 2 là xâu str2;
 
 // Constraints
 
-// 1<=N<=10^12
+// 1<=len(str1), len(str2)<=100;
 
 // Output Format
 
-// In ra kết quả của bài toán
+// Đưa ra kết quả của bài toán
 
 // Sample Input 0
 
-// 1807
+// geek gesek
 // Sample Output 0
 
-// 2915
+// 1
 #include <bits/stdc++.h>
 using namespace std;
 // Run Time 
@@ -55,18 +55,27 @@ const int moveX[8] = {+0, +0, +1, -1, -1, -1, +1, +1};
 const int moveY[8] = {+1, -1, +0, +0, -1, +1, +1, -1};
 const int MOD = 1e9+7;
 typedef long long ll;
-int n;
 int main(){
-    string s; cin >> s;
-    n = s.size();
-    vector<ll> dp(n, 0);
-    ll res = 0;
-    dp[0] = s[0] - '0';
-    for (int i = 1; i<n;i++){
-        dp[i] = (10 * dp[i-1] + (i+1)*(s[i]-'0'));
-        res += dp[i];
+	#ifndef ONLINE_JUDGE
+	freopen("in.txt", "r", stdin);
+	freopen("out.txt", "w", stdout);
+	#endif
+	string str1, str2;
+    cin >> str1 >> str2;
+    int m = str1.length(), n = str2.length();
+    vector<vector<int>> dp(m + 1, vector<int>(n + 1, 0));
+    for (int i = 0; i <= m; i++) {
+        for (int j = 0; j <= n; j++) {
+            if (i == 0)
+                dp[i][j] = j;
+            else if (j == 0)
+                dp[i][j] = i;
+            else if (str1[i-1] == str2[j-1])
+                dp[i][j] = dp[i-1][j-1];
+            else
+                dp[i][j] = min({dp[i-1][j-1], dp[i][j-1], dp[i-1][j]}) + 1;
+        }
     }
-    cout << res + dp[0];
-    return 0;
+    cout << dp[m][n] << endl;
+	return 0;
 }
-
