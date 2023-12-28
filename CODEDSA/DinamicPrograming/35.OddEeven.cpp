@@ -15,9 +15,7 @@
 // In ra đáp án của bài toán
 
 // Sample Input 0
-
 // 4
 // 1 2 1 2
 // Sample Output 0
-
 // 4

@@ -17,3 +17,27 @@
 // 1 2 5 3 4
 // Sample Output 0
 // 4
+#include<bits/stdc++.h>
+using namespace std;
+
+int main() {
+    int n;
+    cin >> n;
+    vector<int> smell(n);
+    for (int i = 0; i < n; i++)
+        cin >> smell[i];
+    vector<int> dp1(n, 1), dp2(n, 1);
+    int ans = 1;
+    for (int i = 1; i < n; i++) {
+        if (smell[i] > smell[i-1]) {
+            dp1[i] = dp1[i-1] + 1;
+            dp2[i] = dp2[i-1] + 1;
+        }
+        if (i > 1 && smell[i] > smell[i-2])
+            dp2[i] = max(dp2[i], dp1[i-2] + 1);
+        ans = max(ans, max(dp1[i], dp2[i]));
+    }
+
+    cout << ans;
+    return 0;
+}
