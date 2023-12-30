@@ -11,18 +11,13 @@
 // Output Format
 
 // In ra xâu nhị phân kế tiếp.
-
 // Sample Input 0
-
 // 1110010
 // Sample Output 0
-
 // 1110011
 // Sample Input 1
-
 // 11111
 // Sample Output 1
-
 // 00000
 #include <bits/stdc++.h>
 using namespace std;

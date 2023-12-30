@@ -66,7 +66,7 @@ const int moveX[8] = {+0, +0, +1, -1, -1, -1, +1, +1};
 const int moveY[8] = {+1, -1, +0, +0, -1, +1, +1, -1};
 const int MOD = 1e9+7;
 const int maxi = 2e5;
-typedef long long ll;
+typedef long long ll
 int n;
 int a[maxi];
 int Tree[4 * maxi];
@@ -78,6 +78,16 @@ void build(int node, int l, int r){
 		build(2 * node, l, mid);
 		build(2 * node + 1, mid+1, r);
 		Tree[node] = Tree[2*node] + Tree[2*node + 1];
+	}
+}
+// query()  với OlogN
+// tr và tl ở đây được biết là 
+void query(int v, int tl, int tr, int l, int r){
+	if (l == tl && r == tr){
+		return Tree[v];
+	}
+	else{
+		
 	}
 }
 int main(){
