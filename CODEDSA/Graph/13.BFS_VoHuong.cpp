@@ -15,17 +15,50 @@ typedef pair<int,int> ii;
 const int dx[4] = {-1, +0, +1, +0}; const int dy[4] = {+0, +1, +0, -1};
 const int moveX[8] = {+0, +0, +1, -1, -1, -1, +1, +1}; const int moveY[8] = {+1, -1, +0, +0, -1, +1, +1, -1};
 const int MOD = 1e9+7; typedef long long ll;
-int n;
+ int n, m, s, t;
+vector<int> a[1001];
+bool visited[1001];
+int parent[1001];
+void dfs(int u){
+    visited[u] = true;
+    for (int v : a[u]){
+        if (!visited[u]){
+            parent[v] = u;
+            dfs(v);
+        }
+    }
+}
 int main(){
-	#ifndef ONLINE_JUDGE
-	// for getting input from input.txt
-	freopen("in.txt", "r", stdin);
-	// for writing output to output.txt
-	freopen("out.txt", "w", stdout);
-	#endif
-	int a, b; cin >> a >> b;
-	int x1 = min(a/2, b/2);
-	int x2 = max(min(a, b), b/2);
-	cout << x1 << " " << x2;
-	return 0;
+    #ifndef ONLINE_JUDGE
+    // for getting input from input.txt
+    freopen("in.txt", "r", stdin);
+    // for writing output to output.txt
+    freopen("out.txt", "w", stdout);
+    #endif
+    cin >> n >> m >> s >> t;
+    memset(visited, false, sizeof(visited));
+    memset(parent, 0, sizeof(parent));
+    for (int i = 1;i<=m;i++){
+        int x, y; cin >> x >> y;
+        a[x].push_back(y);
+        a[y].push_back(x);
+    }
+    for (int i = 1; i<= n;i++){
+        sort(a[i].begin(), a[i].end());
+        debug(i, a[i]);
+    }
+    dfs(s);
+    parent[s] = 0;
+    if (visited[t]){
+        vector<int> res;
+        while (s != t){
+            res.push_back(t);
+            t = parent[t];
+        }
+        res.push_back(s);
+        reverse(res.begin(), res.end());
+        for (int x : res) cout << x <<  " ";
+    } else cout << -1;
+    /* Enter your code here. Read input from STDIN. Print output to STDOUT */   
+    return 0;
 }

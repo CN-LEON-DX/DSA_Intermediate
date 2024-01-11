@@ -15,7 +15,6 @@ typedef pair<int,int> ii;
 const int dx[4] = {-1, +0, +1, +0}; const int dy[4] = {+0, +1, +0, -1};
 const int moveX[8] = {+0, +0, +1, -1, -1, -1, +1, +1}; const int moveY[8] = {+1, -1, +0, +0, -1, +1, +1, -1};
 const int MOD = 1e9+7; typedef long long ll;
-int n;
 int main(){
 	#ifndef ONLINE_JUDGE
 	// for getting input from input.txt
@@ -23,9 +22,29 @@ int main(){
 	// for writing output to output.txt
 	freopen("out.txt", "w", stdout);
 	#endif
-	int a, b; cin >> a >> b;
-	int x1 = min(a/2, b/2);
-	int x2 = max(min(a, b), b/2);
-	cout << x1 << " " << x2;
+    int n;
+    cin >> n;
+    vector<int> a(n, 0);
+    for (ll i = 0; i < n; i++) {
+        cin >> a[i];
+    }
+
+    vector<int> prefix(n), suffix(n);
+    prefix[0] = a[0];
+    for (ll i = 1; i < n; i++) {
+        prefix[i] = prefix[i-1] + a[i];
+    }
+
+    suffix[n-1] = a[n-1];
+    for (ll i = n-2; i >= 0; i--) {
+        suffix[i] = suffix[i+1] + a[i];
+    }
+
+    ll min_time = LLONG_MAX;
+    for (ll i = 0; i < n; i++) {
+        ll time = i*a[i] - prefix[i] + suffix[i] - (n-i)*a[i];
+        min_time = min(min_time, time);
+    }
+    cout << min_time << endl;
 	return 0;
 }

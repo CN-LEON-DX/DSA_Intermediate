@@ -1,3 +1,4 @@
+
 #include <bits/stdc++.h>
 using namespace std;
 // Run Time 
@@ -15,7 +16,6 @@ typedef pair<int,int> ii;
 const int dx[4] = {-1, +0, +1, +0}; const int dy[4] = {+0, +1, +0, -1};
 const int moveX[8] = {+0, +0, +1, -1, -1, -1, +1, +1}; const int moveY[8] = {+1, -1, +0, +0, -1, +1, +1, -1};
 const int MOD = 1e9+7; typedef long long ll;
-int n;
 int main(){
 	#ifndef ONLINE_JUDGE
 	// for getting input from input.txt
@@ -23,9 +23,20 @@ int main(){
 	// for writing output to output.txt
 	freopen("out.txt", "w", stdout);
 	#endif
-	int a, b; cin >> a >> b;
-	int x1 = min(a/2, b/2);
-	int x2 = max(min(a, b), b/2);
-	cout << x1 << " " << x2;
+	int n, a, b, c; cin >> n >> a >> b >> c;
+	vector<char> ar(n+1);
+	int i = 1;
+	for (int i = 0;i<c;i++){
+		if (i%2==0) ar[i] = '0';
+		else ar[i] = '1';
+	}
+	for (int i = 0;i<c;i++){
+		cout << ar[i];
+	}
+	for (int i = c;i<=c+a;i++){
+		if((i-c)%2==0) ar[i] = 'A';
+		else ar
+	}
+	debug(ar);
 	return 0;
 }

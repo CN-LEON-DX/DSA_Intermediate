@@ -15,7 +15,27 @@ typedef pair<int,int> ii;
 const int dx[4] = {-1, +0, +1, +0}; const int dy[4] = {+0, +1, +0, -1};
 const int moveX[8] = {+0, +0, +1, -1, -1, -1, +1, +1}; const int moveY[8] = {+1, -1, +0, +0, -1, +1, +1, -1};
 const int MOD = 1e9+7; typedef long long ll;
-int n;
+int n, m; 
+vector<int> a[1001];
+bool visited[1001];
+stack<int> st;
+void in(){
+	cin >> n >> m;
+	for (int i = 1; i<= n;i++){
+		int x, y; cin >> x >> y;
+		a[x].push_back(y);
+	}
+	memset(visited, false, sizeof(visited));
+}
+void dfs(int u){
+	visited[u] = 1; 
+	for (int v : a[u]){
+		if (!visited[v]){
+			dfs(v);
+		}
+	}
+	st.push(u);
+}
 int main(){
 	#ifndef ONLINE_JUDGE
 	// for getting input from input.txt
@@ -23,9 +43,15 @@ int main(){
 	// for writing output to output.txt
 	freopen("out.txt", "w", stdout);
 	#endif
-	int a, b; cin >> a >> b;
-	int x1 = min(a/2, b/2);
-	int x2 = max(min(a, b), b/2);
-	cout << x1 << " " << x2;
+	in();
+	for (int i = 1; i<= n;i++){
+		if (!visited[i]){
+			dfs(i);
+		}
+	}
+	while (!st.empty()){
+		cout << st.top() << " ";
+		st.pop();
+	}
 	return 0;
 }
