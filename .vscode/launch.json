@@ -8,8 +8,8 @@
       "args": [],
       "stopAtEntry": false,
       "externalConsole": true,
-      "cwd": "d:/MYGIT/DSA_Intermediate/CODEDSA/Graph",
-      "program": "d:/MYGIT/DSA_Intermediate/CODEDSA/Graph/build/Debug/outDebug",
+      "cwd": "d:/MYGIT/DSA_Intermediate/CODEDSA/DinamicPrograming",
+      "program": "d:/MYGIT/DSA_Intermediate/CODEDSA/DinamicPrograming/build/Debug/outDebug",
       "MIMode": "gdb",
       "miDebuggerPath": "gdb",
       "setupCommands": [
