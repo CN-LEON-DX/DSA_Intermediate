@@ -41,37 +41,39 @@ int n;
 vector<ll> BIT(max_int, 0);
 vector<int> a(max_int, 0);
 
-
 int main() {
-    // #ifndef ONLINE_JUDGE
+
+	// #ifndef ONLINE_JUDGE
     // freopen("in.txt", "r", stdin);
     // freopen("out.txt", "w", stdout);
     // #endif
-    int tc;
-    cin >> tc;
-    while (tc--) {
-        int n;
-        cin >> n;
-        vector<ll> a(n);
-        for (ll &x : a) cin >> x;
-
-        stack<ll> st;  
-        vector<ll> res(n); 
-        
-        for (int i = 0; i < n; i++) {
-            ll count = 1; 
-            while (!st.empty() && a[st.top()] <= a[i]) {
-                count += res[st.top()]; 
-                st.pop(); 
-            }
-            res[i] = count; 
-            st.push(i); 
-        }
-
-        for (ll i : res) {
-            cout << i << " "; 
-        }
-        cout << endl;
+    int n;
+    cin >> n;
+    vector<ll> a(n);
+    
+    for (int i = 0; i < n; i++) {
+        cin >> a[i];
     }
+
+    vector<ll> dp(n, 0);
+    dp[0] = 1; 
+    vector<ll> b(31, 0);
+
+    for (int i = 0; i < n; i++) {
+        for (int bit = 0; bit<32;bit++){
+        	if (a[i] & (1 << bit)){
+        		dp[i] = (dp[i] + b[bit])%MOD;
+        	}
+        }
+
+        for (int bit = 0;bit < 63;bit++){
+        	if (a[i] & (1 << bit)){
+        		b[bit] = (b[bit] + dp[i]) % MOD;
+        	}
+        }
+
+    }
+
+    cout << dp[n - 1] << endl;
     return 0;
 }

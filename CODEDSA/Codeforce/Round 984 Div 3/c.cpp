@@ -41,37 +41,51 @@ int n;
 vector<ll> BIT(max_int, 0);
 vector<int> a(max_int, 0);
 
-
 int main() {
-    // #ifndef ONLINE_JUDGE
-    // freopen("in.txt", "r", stdin);
-    // freopen("out.txt", "w", stdout);
-    // #endif
-    int tc;
-    cin >> tc;
-    while (tc--) {
-        int n;
-        cin >> n;
-        vector<ll> a(n);
-        for (ll &x : a) cin >> x;
+    #ifndef ONLINE_JUDGE
+    freopen("in.txt", "r", stdin);
+    freopen("out.txt", "w", stdout);
+    #endif
+    int t;
+    cin >> t;
 
-        stack<ll> st;  
-        vector<ll> res(n); 
-        
-        for (int i = 0; i < n; i++) {
-            ll count = 1; 
-            while (!st.empty() && a[st.top()] <= a[i]) {
-                count += res[st.top()]; 
-                st.pop(); 
+    while (t--) {
+        string s;
+        cin >> s;
+        int q;
+        cin >> q;
+
+        set<int> se;
+        int n = s.size();
+
+        for (int i = 0; i <= n - 4; ++i) {
+            if (s.substr(i, 4) == "1100") {
+                se.insert(i);
             }
-            res[i] = count; 
-            st.push(i); 
         }
 
-        for (ll i : res) {
-            cout << i << " "; 
+        while (q--) {
+            int i, v;
+            cin >> i >> v;
+            --i; 
+
+            s[i] = v + '0';
+
+            for (int j = max(0, i - 3); j <= min(n - 4, i); ++j) {
+                if (s.substr(j, 4) == "1100") {
+                    se.insert(j);
+                } else {
+                    se.erase(j);
+                }
+            }
+
+            if (!se.empty()) {
+                cout << "YES" << endl;
+            } else {
+                cout << "NO" << endl;
+            }
         }
-        cout << endl;
     }
+
     return 0;
 }

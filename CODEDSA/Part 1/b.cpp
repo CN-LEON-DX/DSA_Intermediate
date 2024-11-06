@@ -37,17 +37,41 @@ const int moveY[8] = {+1, -1, +0, +0, -1, +1, +1, -1};
 const int MOD = 1e9+7;
 const int max_int = 10;
 typedef long long ll;
-int n;
 vector<ll> BIT(max_int, 0);
 vector<int> a(max_int, 0);
 
-int main() {
-    #ifndef ONLINE_JUDGE
-    freopen("in.txt", "r", stdin);
-    freopen("out.txt", "w", stdout);
-    #endif
+// test
+ll solve(vector<ll> h) {
+    ll n = h.size();
+    stack<ll> st;
+    ll minr = 0;
+    for (int i = 0; i < n; i++) {
+        while (!st.empty() && h[i] < st.top()) {
+            st.pop();
+        }
+        if (st.empty() || h[i] > st.top()) {
+            minr++;
+            st.push(h[i]);
+        }
+    }
 
+    return minr;
+}
+
+int main() {
+    // #ifndef ONLINE_JUDGE
+    // freopen("in.txt", "r", stdin);
+    // freopen("out.txt", "w", stdout);
+    // #endif
+    int n;
     cin >> n;
+    vector<ll> h(n);
+    for (int i = 0; i < n; i++) {
+        cin >> h[i];
+    }
+
+    int res = solve(h);
+    cout << res << endl;
 
     return 0;
 }

@@ -41,37 +41,21 @@ int n;
 vector<ll> BIT(max_int, 0);
 vector<int> a(max_int, 0);
 
-
+// candy division 
+input:
+6
+1 2 8 9 6 5 4 3
+Output:
+1 2 3 5 4 3 2 1
+// sum is minimum
 int main() {
-    // #ifndef ONLINE_JUDGE
-    // freopen("in.txt", "r", stdin);
-    // freopen("out.txt", "w", stdout);
-    // #endif
-    int tc;
-    cin >> tc;
-    while (tc--) {
-        int n;
-        cin >> n;
-        vector<ll> a(n);
-        for (ll &x : a) cin >> x;
+    #ifndef ONLINE_JUDGE
+    freopen("in.txt", "r", stdin);
+    freopen("out.txt", "w", stdout);
+    #endif
 
-        stack<ll> st;  
-        vector<ll> res(n); 
-        
-        for (int i = 0; i < n; i++) {
-            ll count = 1; 
-            while (!st.empty() && a[st.top()] <= a[i]) {
-                count += res[st.top()]; 
-                st.pop(); 
-            }
-            res[i] = count; 
-            st.push(i); 
-        }
-
-        for (ll i : res) {
-            cout << i << " "; 
-        }
-        cout << endl;
-    }
+    cin >> n;
+    int a[n];
+    
     return 0;
 }

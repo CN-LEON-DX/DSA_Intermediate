@@ -66,38 +66,51 @@ const int moveX[8] = {+0, +0, +1, -1, -1, -1, +1, +1};
 const int moveY[8] = {+1, -1, +0, +0, -1, +1, +1, -1};
 const int MOD = 1e9+7;
 const int maxi = 2e5;
-typedef long long ll
+typedef long long ll;
 int n;
 int a[maxi];
-int Tree[4 * maxi];
+int ST[4 * maxi];
 void build(int node, int l, int r){
 	if (l == r){
-		Tree[node] = a[l];
+		ST[node] = a[l];
 	}else{
 		int mid = (l + r) / 2; 
 		build(2 * node, l, mid);
 		build(2 * node + 1, mid+1, r);
-		Tree[node] = Tree[2*node] + Tree[2*node + 1];
+		ST[node] = ST[2*node] + ST[2*node + 1];
 	}
 }
-// query()  với OlogN
-// tr và tl ở đây được biết là 
-void query(int v, int tl, int tr, int l, int r){
+// query()  với O(log(N))
+// tr và tl is the query sum of the tree
+int querySum(int v, int tl, int tr, int l, int r){
+	if (l > r) return 0;
 	if (l == tl && r == tr){
-		return Tree[v];
+		return ST[v];
 	}
 	else{
-		
+		int tm = (tl + tr)/2;
+		return querySum(2 * v, tl, tm, l, min(tm, r)) + querySum(2 * v + 1, tm + 1, tr, max(tm + 1, l), r);
 	}
+}
+
+void update(){
+
 }
 int main(){
 	#ifndef ONLINE_JUDGE
 	freopen("in.txt", "r", stdin);
 	freopen("out.txt", "w", stdout);
 	#endif
+
+	ios::sync_with_stdio(false);
+	cin.tie(nullptr);
 	cin >> n;
-	for (int i = 1; i<= n; i ++ ) cin >> a[i];
-	build(1, 1, n);
-	for (int i = 1; i<= 20;i++) cout << Tree[i] << " ";
+	for (int i = 0; i< n; i ++ ) cin >> a[i];
+	build(1, 0, n - 1);
+	// for (int i = 1; i<= 20;i++) cout << i << " " << ST[i] << endl;
+		cout << "Sum" << endl;
+	cout << querySum(1, 0, n-1, 2, 5) << endl;
 	return 0;
 }
+
+

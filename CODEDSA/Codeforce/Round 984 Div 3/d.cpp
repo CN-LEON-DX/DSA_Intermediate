@@ -40,38 +40,67 @@ typedef long long ll;
 int n;
 vector<ll> BIT(max_int, 0);
 vector<int> a(max_int, 0);
+#include <bits/stdc++.h>
+using namespace std;
 
+// Function to count occurrences of "1543" in a given string
+int count1543InLayer(const string& layer) {
+    int count = 0;
+    size_t pos = layer.find("1543");
+    while (pos != string::npos) {
+        count++;
+        pos = layer.find("1543", pos + 1);
+    }
+    return count;
+}
 
 int main() {
-    // #ifndef ONLINE_JUDGE
-    // freopen("in.txt", "r", stdin);
-    // freopen("out.txt", "w", stdout);
-    // #endif
-    int tc;
-    cin >> tc;
-    while (tc--) {
-        int n;
-        cin >> n;
-        vector<ll> a(n);
-        for (ll &x : a) cin >> x;
+	#ifndef ONLINE_JUDGE
+    freopen("in.txt", "r", stdin);
+    freopen("out.txt", "w", stdout);
+    #endif
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
 
-        stack<ll> st;  
-        vector<ll> res(n); 
-        
-        for (int i = 0; i < n; i++) {
-            ll count = 1; 
-            while (!st.empty() && a[st.top()] <= a[i]) {
-                count += res[st.top()]; 
-                st.pop(); 
+    int t;
+    cin >> t;
+
+    while (t--) {
+        int n, m;
+        cin >> n >> m;
+
+        vector<string> carpet(n);
+        for (int i = 0; i < n; ++i) {
+            cin >> carpet[i];
+        }
+
+        int totalCount = 0;
+
+        for (int layer = 0; layer < min(n, m) / 2; ++layer) {
+            string layerString;
+
+            // Top row
+            for (int j = layer; j < m - layer; ++j) {
+                layerString += carpet[layer][j];
             }
-            res[i] = count; 
-            st.push(i); 
+            // Right column
+            for (int i = layer + 1; i < n - layer; ++i) {
+                layerString += carpet[i][m - layer - 1];
+            }
+            // Bottom row
+            for (int j = m - layer - 2; j >= layer; --j) {
+                layerString += carpet[n - layer - 1][j];
+            }
+            // Left column
+            for (int i = n - layer - 2; i > layer; --i) {
+                layerString += carpet[i][layer];
+            }
+
+            totalCount += count1543InLayer(layerString);
         }
 
-        for (ll i : res) {
-            cout << i << " "; 
-        }
-        cout << endl;
+        cout << totalCount << endl;
     }
+
     return 0;
 }

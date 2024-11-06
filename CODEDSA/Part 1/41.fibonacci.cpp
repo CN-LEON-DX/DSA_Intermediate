@@ -41,37 +41,35 @@ int n;
 vector<ll> BIT(max_int, 0);
 vector<int> a(max_int, 0);
 
+// input return the char at k in fibo string combination of  A and B
+// input:
+// 6 3
+int F[93];
 
+void init(){
+	F[1] = 1;
+	F[2] = 1;
+	for (int i = 3;i<= 92;i++){
+		F[i] = F[i-1] + F[i-2];
+	}
+}
+char fibo(int n, int k){
+	if (n == 1) return 'A';
+	if (n == 2) return 'B';
+	if (k <= F[n-2]){
+		return fibo(n - 2, k);
+	}
+	return fibo(n-1, k - F[n-2]);
+}
 int main() {
-    // #ifndef ONLINE_JUDGE
-    // freopen("in.txt", "r", stdin);
-    // freopen("out.txt", "w", stdout);
-    // #endif
-    int tc;
-    cin >> tc;
-    while (tc--) {
-        int n;
-        cin >> n;
-        vector<ll> a(n);
-        for (ll &x : a) cin >> x;
+    #ifndef ONLINE_JUDGE
+    freopen("in.txt", "r", stdin);
+    freopen("out.txt", "w", stdout);
+    #endif
+    int k;
+    cin >> n >> k;
+    init();
+    cout << fibo(n, k);
 
-        stack<ll> st;  
-        vector<ll> res(n); 
-        
-        for (int i = 0; i < n; i++) {
-            ll count = 1; 
-            while (!st.empty() && a[st.top()] <= a[i]) {
-                count += res[st.top()]; 
-                st.pop(); 
-            }
-            res[i] = count; 
-            st.push(i); 
-        }
-
-        for (ll i : res) {
-            cout << i << " "; 
-        }
-        cout << endl;
-    }
     return 0;
 }

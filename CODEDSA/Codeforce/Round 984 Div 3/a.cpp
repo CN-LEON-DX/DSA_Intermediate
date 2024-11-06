@@ -41,7 +41,6 @@ int n;
 vector<ll> BIT(max_int, 0);
 vector<int> a(max_int, 0);
 
-
 int main() {
     // #ifndef ONLINE_JUDGE
     // freopen("in.txt", "r", stdin);
@@ -49,29 +48,19 @@ int main() {
     // #endif
     int tc;
     cin >> tc;
-    while (tc--) {
-        int n;
-        cin >> n;
-        vector<ll> a(n);
-        for (ll &x : a) cin >> x;
-
-        stack<ll> st;  
-        vector<ll> res(n); 
-        
-        for (int i = 0; i < n; i++) {
-            ll count = 1; 
-            while (!st.empty() && a[st.top()] <= a[i]) {
-                count += res[st.top()]; 
-                st.pop(); 
+    while (tc--){
+    	int n; cin >> n;
+    	int a[n];
+    	for (int &i : a) cin >> i;
+    	bool check = true; 
+        for (int i = 1; i < n; i++) {
+            int in = abs(a[i] - a[i - 1]); 
+            if (in != 5 && in != 7) { 
+                check = false;
+                break; 
             }
-            res[i] = count; 
-            st.push(i); 
         }
-
-        for (ll i : res) {
-            cout << i << " "; 
-        }
-        cout << endl;
+        cout << (check ? "YES" : "NO") << endl;
     }
     return 0;
 }

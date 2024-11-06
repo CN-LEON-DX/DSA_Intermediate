@@ -43,35 +43,48 @@ vector<int> a(max_int, 0);
 
 
 int main() {
-    // #ifndef ONLINE_JUDGE
+	// #ifndef ONLINE_JUDGE
     // freopen("in.txt", "r", stdin);
     // freopen("out.txt", "w", stdout);
     // #endif
-    int tc;
-    cin >> tc;
-    while (tc--) {
-        int n;
-        cin >> n;
-        vector<ll> a(n);
-        for (ll &x : a) cin >> x;
+    ios::sync_with_stdio(false); 
+    cin.tie(nullptr);
+    int t;
+    cin >> t;
 
-        stack<ll> st;  
-        vector<ll> res(n); 
-        
-        for (int i = 0; i < n; i++) {
-            ll count = 1; 
-            while (!st.empty() && a[st.top()] <= a[i]) {
-                count += res[st.top()]; 
-                st.pop(); 
+    while (t--) {
+        int n, k;
+        cin >> n >> k;
+
+        unordered_map<int, vector<int>> a;
+
+        for (int i = 0; i < k; i++) {
+            int bi, ci;
+            cin >> bi >> ci;
+            a[bi].push_back(ci);
+        }
+
+        vector<int> all_costs;
+
+        for (auto& it : a) {
+            vector<int>& costs = it.second;
+            sort(costs.rbegin(), costs.rend()); 
+            for (int i = 0; i < min(n, (int)costs.size()); ++i) {
+                all_costs.push_back(costs[i]);
             }
-            res[i] = count; 
-            st.push(i); 
         }
 
-        for (ll i : res) {
-            cout << i << " "; 
+        sort(all_costs.rbegin(), all_costs.rend()); 
+
+        ll max_earnings = 0;
+        for (int i = 0; i < min(n, (int)all_costs.size()); ++i) {
+            max_earnings += all_costs[i];
         }
-        cout << endl;
+
+        cout << max_earnings << endl;
     }
+
+    return 0;
+
     return 0;
 }
